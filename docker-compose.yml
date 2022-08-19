@@ -1,0 +1,48 @@
+services:
+  reverse-proxy:
+    image: nginx
+    ports:
+      - "8080:8080"
+    networks:
+      - front-net
+      - back-net
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - frontend
+
+  frontend:
+    image: node
+    volumes:
+      - ./frontend/:/app
+    working_dir: /app
+    command: npm run dev
+    networks:
+      - front-net
+    depends_on:
+      - backend
+
+  backend:
+    image: node
+    volumes:
+      - ./backend/:/app
+    working_dir: /app
+    command: npm run dev
+    networks:
+      - back-net
+    depends_on:
+      - database
+
+  database:
+    image: redis
+    volumes:
+      - db-data:/data
+    networks:
+      - back-net 
+
+volumes:
+  db-data:
+
+networks:
+  front-net:
+  back-net:
