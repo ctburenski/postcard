@@ -1,16 +1,11 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
-
-	let message: string;
-
-	onMount(async () => {
-		const result = await fetch('/api');
-		message = await result.text();
-	});
+	import { messages } from './messages';
+	let messageList: string[];
+	messages.subscribe((messages) => (messageList = messages));
 </script>
 
 <h1>Hello!</h1>
-<p>Visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to read the documentation</p>
-{#if message}
+{#each messageList as message, index}
+	<h3>Message {index + 1}</h3>
 	<p>{message}</p>
-{/if}
+{/each}
