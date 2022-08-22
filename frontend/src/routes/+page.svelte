@@ -1,11 +1,15 @@
 <script lang="ts">
-	import { messages } from './messages';
-	let messageList: string[];
-	messages.subscribe((messages) => (messageList = messages));
+	import { messages } from '$lib/messages';
+	import { loggedInAs } from '$lib/loggedInAs';
 </script>
 
-<h1>Hello!</h1>
-{#each messageList as message, index}
-	<h3>Message {index + 1}</h3>
-	<p>{message}</p>
-{/each}
+{#if $loggedInAs}
+	<p>Hello, {$loggedInAs.username}!</p>
+	{#each $messages as message, index}
+		<h3>Message {index + 1}</h3>
+		<p>{message}</p>
+	{/each}
+{:else}
+	<a href="/log-in">Login</a>
+	<a href="/register">Register</a>
+{/if}

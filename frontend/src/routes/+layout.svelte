@@ -1,11 +1,12 @@
 <script lang="ts">
+	import '../app.css';
 	import { onMount } from 'svelte';
-	import { messages } from './messages';
+	import { messages } from '../lib/messages';
 
 	let ok: boolean | null = null;
 
 	const checkApi = async () => {
-		const result = await fetch('/api');
+		const result = await fetch('/api/test');
 		setTimeout(async () => {
 			await checkApi();
 		}, 20_000);
@@ -16,7 +17,9 @@
 		await checkApi();
 		const messageApiResponse = await fetch('/api/messages');
 		const messagesData = await messageApiResponse.json();
-		messages.set(messagesData);
+		if (messagesData.length > 0) {
+			$messages = messagesData;
+		}
 	});
 </script>
 
@@ -30,5 +33,4 @@
 	<p>⏳</p>
 {/if}
 
-<p><a href="/auth">Login</a></p>
 <slot />

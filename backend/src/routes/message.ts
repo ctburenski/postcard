@@ -2,7 +2,7 @@ import { Router } from "express";
 
 const router = Router();
 
-router.get('/messages', (req, res) => {
+router.get('/', (req, res) => {
     res.json(['test1', 'test1'])
 })
 
