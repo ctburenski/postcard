@@ -33,9 +33,6 @@ app.use(express.json());
 app.use(cors());
 app.use(helmet());
 
-app.use('/api/messages', messages);
-app.use('/api/', auth);
-
 app.get('/api/test', async (req, res) => {
     const client = getClient();
     const result = await client.set('test', 'ok');
@@ -45,6 +42,11 @@ app.get('/api/test', async (req, res) => {
         return res.status(500).end();
     }
 });
+
+app.use('/api/messages', messages);
+
+app.use('/api/', auth);
+
 
 (async () => {
     await init()
