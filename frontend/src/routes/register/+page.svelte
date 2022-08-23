@@ -68,7 +68,7 @@
 
 <div>
 	<h1>Register</h1>
-	<form on:submit|preventDefault={submitForm} action="/api/auth/register" method="post">
+	<form on:submit|preventDefault={submitForm} action="/api/register" method="post">
 		<label
 			>Username<input
 				bind:value={username}
