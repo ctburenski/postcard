@@ -3,23 +3,19 @@ import { getClient } from "../lib/redisClient";
 
 const router = Router();
 
-router.put('/login', (req, res) => {
-
-})
-
 router.post('/register', async (req, res) => {
-    const client = getClient();
     const data = req.body;
     // TODO need to add CSRF token to the data
     const {
         username,
         password,
-    } = data;
+    } = req.body;
 
     if (!username || !password) {
-        return res.status(400).json({ 'error': 'Missing username or password' });
+        return res.status(400).json({ 'error': 'missing username or password' });
     }
 
+    const client = getClient();
     const usernameAdded = await client.sAdd('users', username);
     if (!usernameAdded) {
         return res.status(500).end();
@@ -32,6 +28,30 @@ router.post('/register', async (req, res) => {
         return res.status(500).end();
     }
 
+    req.session.username = username;
+    return res.status(200).end();
+})
+
+router.put('/login', async (req, res) => {
+    const {
+        username,
+        password
+    } = req.body;
+
+    if (!username || !password) {
+        return res.status(400).json({ 'error': 'username and password are required' });
+    }
+
+    const client = getClient();
+    const usernameValid = await client.sIsMember('users', username);
+    if (!usernameValid) {
+        return res.status(500).end();
+    }
+    const storedPassword = await client.hGet(`user:${username}`, 'password');
+    // Need to use hashing here
+    if (storedPassword !== password) {
+        return res.status(500).end();
+    }
     req.session.username = username;
     return res.status(200).end();
 })
