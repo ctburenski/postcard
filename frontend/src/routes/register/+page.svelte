@@ -54,9 +54,9 @@
 
 	// TODO add some stuff to the form
 	// to display if the username is valid or not
-	let validPassword: boolean | null = null;
-	$: {
-	}
+	// let validPassword: boolean | null = null;
+	// $: {
+	// }
 
 	// TODO add some tailwind classes to the form
 	// to reflect the validity of confirmed password
