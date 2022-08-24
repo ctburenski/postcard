@@ -8,6 +8,9 @@
         "strict": true,
         "skipLibCheck": true,
         "outDir": "build",
+        "moduleResolution": "Node",
+        "module": "CommonJS",
+        "target": "ES2022",
     },
 }
 

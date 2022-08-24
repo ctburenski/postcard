@@ -1,0 +1,14 @@
+services:
+  backend:
+    image: for-later/backend
+    build:
+      context: ./backend
+      dockerfile: backend.test.Dockerfile
+    command: npm run test
+  
+  frontend:
+    image: for-later/frontend
+    build:
+      context: ./frontend
+      dockerfile: frontend.test.Dockerfile
+    command: npm run check

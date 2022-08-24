@@ -12,4 +12,8 @@ function getClient() {
     return client;
 }
 
-export { getClient, init };
+async function quit() {
+    await client.quit();
+}
+
+export { getClient, init, quit };
