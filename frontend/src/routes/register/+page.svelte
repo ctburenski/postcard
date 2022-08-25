@@ -10,7 +10,7 @@
 		if (password !== confirmPassword) {
 			return;
 		}
-		const result = await fetch('/api/register', {
+		const result = await fetch('/api/auth/register', {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json'
@@ -36,7 +36,7 @@
 		//
 		// no need to freak out the user
 		try {
-			const result = await fetch('/api/check-username', {
+			const result = await fetch('/api/auth/check-username', {
 				method: 'GET',
 				headers: {
 					'Content-Type': 'application/json'
@@ -71,7 +71,7 @@
 {:else}
 	<div>
 		<h1>Register</h1>
-		<form on:submit|preventDefault={submitForm} action="/api/register" method="post">
+		<form on:submit|preventDefault={submitForm} action="/api/auth/register" method="post">
 			<label
 				>Username<input
 					bind:value={username}

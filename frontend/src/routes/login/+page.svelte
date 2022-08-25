@@ -6,7 +6,7 @@
 	let password = '';
 
 	async function submitForm() {
-		const result = await fetch('/api/login', {
+		const result = await fetch('/api/auth/login', {
 			method: 'PUT',
 			headers: {
 				'Content-Type': 'application/json'
@@ -33,7 +33,7 @@
 {:else}
 	<div>
 		<h1>Login</h1>
-		<form on:submit|preventDefault={submitForm} action="/api/login" method="PUT">
+		<form on:submit|preventDefault={submitForm} action="/api/auth/login" method="PUT">
 			<label
 				>Username
 				<input

@@ -15,7 +15,7 @@
 	}
 
 	async function getLoggedInUser() {
-		const result = await fetch('/api/logged-in');
+		const result = await fetch('/api/auth/logged-in');
 		try {
 			return await result.json();
 		} catch (e) {
@@ -24,7 +24,7 @@
 	}
 
 	async function logOut() {
-		const result = await fetch('/api/logout', {
+		const result = await fetch('/api/auth/logout', {
 			method: 'PUT',
 			headers: {
 				'Content-Type': 'application/json'
