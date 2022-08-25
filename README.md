@@ -1,4 +1,6 @@
 # for-later
+![CI Workflow](https://github.com/ctburenski/for-later/actions/workflows/main.yml/badge.svg)
+
 A delayed messaging app targeted towards couples and close friends.
 
 ### Technology Used
