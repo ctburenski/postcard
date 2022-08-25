@@ -16,6 +16,7 @@
 			})
 		});
 		if (result.status === 200) {
+			await getConnections();
 		}
 	}
 
@@ -26,6 +27,24 @@
 			const data = await result.json();
 			connections = data;
 		}
+	}
+
+	function removeConnection(userToRemove: string) {
+		const removeFunction = async () => {
+			const result = await fetch('/api/connection/remove-connection', {
+				method: 'PUT',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify({
+					userToRemove
+				})
+			});
+			if (result.status === 200) {
+				await getConnections();
+			}
+		};
+		return removeFunction;
 	}
 
 	onMount(async () => {
@@ -51,7 +70,13 @@
 		<h1>Connections</h1>
 		<ul>
 			{#each connections as connection}
-				<li>{connection}</li>
+				<li>
+					{connection} -
+					<a
+						on:click|preventDefault={removeConnection(connection)}
+						href="/api/connection/remove-connection">remove</a
+					>
+				</li>
 			{/each}
 		</ul>
 	{/if}
