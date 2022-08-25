@@ -1,0 +1,39 @@
+name: Test and Type Check CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+  workflow_dispatch:
+
+jobs:
+  test-backend:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      
+      - run: |
+          docker compose -f docker-compose.test.yml \
+          --profile backend-test                    \
+          -p backend-test-profile                   \
+          up --build                                \
+          --abort-on-container-exit                 \
+          --exit-code-from backend-test
+
+  check-frontend:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v3
+      
+      - run: |
+          docker compose -f docker-compose.test.yml \
+          --profile frontend-test                   \
+          -p frontend-test-profile                  \
+          up --build                                \
+          --abort-on-container-exit                 \
+          --exit-code-from frontend-test
+
