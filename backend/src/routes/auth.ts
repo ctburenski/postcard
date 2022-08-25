@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { getClient } from "../lib/redisClient";
+import * as argon2 from 'argon2';
 
 const router = Router();
 
@@ -20,7 +21,10 @@ router.post('/register', async (req, res) => {
     if (!usernameAdded) {
         return res.status(500).end();
     }
-    const passwordAdded = await client.hSet(`user:${username}`, 'password', password);
+
+    // argon2 adds a salt and hashes the password
+    const hashedPassword = await argon2.hash(password);
+    const passwordAdded = await client.hSet(`user:${username}`, 'password', hashedPassword);
     if (!passwordAdded) {
         // TODO need to remove the user from the set?
         // or maybe let them reset their password
@@ -49,11 +53,12 @@ router.put('/login', async (req, res) => {
     }
     const storedPassword = await client.hGet(`user:${username}`, 'password');
     // Need to use hashing here
-    if (storedPassword !== password) {
+    if (storedPassword && await argon2.verify(storedPassword, password)) {
+        req.session.username = username;
+        return res.status(200).end();
+    } else {
         return res.status(500).end();
     }
-    req.session.username = username;
-    return res.status(200).end();
 })
 
 router.put('/logout', async (req, res) => {
