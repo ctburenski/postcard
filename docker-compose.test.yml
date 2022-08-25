@@ -1,14 +1,35 @@
 services:
-  backend:
-    image: for-later/backend
+  backend-test:
+    profiles:
+      - backend-test
     build:
       context: ./backend
-      dockerfile: backend.test.Dockerfile
+      dockerfile: backend.Dockerfile
+    networks:
+      - backend
+    depends_on:
+      - database
     command: npm run test
-  
-  frontend:
-    image: for-later/frontend
+
+  frontend-test:
+    profiles:
+      - frontend-test
     build:
       context: ./frontend
-      dockerfile: frontend.test.Dockerfile
+      dockerfile: frontend.Dockerfile
     command: npm run check
+
+  database:
+    profiles:
+      - backend-test
+    image: redis
+    volumes:
+      - db-data:/data
+    networks:
+      - backend
+
+volumes:
+  db-data:
+
+networks:
+  backend:
