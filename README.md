@@ -10,8 +10,8 @@ A delayed messaging app targeted towards couples and close friends.
 - [Tailwind](https://tailwindcss.com)
 - [Docker](https://www.docker.com)
 - [Codespaces](https://github.com/features/codespaces)
+- [Jest](https://jestjs.io)
 
 ...and hopefully in the future:
-- [Jest](https://jestjs.io)
 - [Terraform](https://www.terraform.io)
 - [Vercel](https://vercel.com/dashboard)
