@@ -9,7 +9,4 @@
 		<h3>Message {index + 1}</h3>
 		<p>{message}</p>
 	{/each}
-{:else}
-	<a href="/log-in">Login</a>
-	<a href="/register">Register</a>
 {/if}

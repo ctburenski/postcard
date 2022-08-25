@@ -66,34 +66,38 @@
 	}
 </script>
 
-<div>
-	<h1>Register</h1>
-	<form on:submit|preventDefault={submitForm} action="/api/register" method="post">
-		<label
-			>Username<input
-				bind:value={username}
-				on:change={checkUsername}
-				type="text"
-				autocomplete="username"
-				required
-			/></label
-		>
-		<label
-			>Password<input
-				bind:value={password}
-				type="password"
-				autocomplete="new-password"
-				required
-			/></label
-		>
-		<label
-			>Confirm Pasword<input
-				bind:value={confirmPassword}
-				type="password"
-				autocomplete="new-password"
-				required
-			/></label
-		>
-		<input type="submit" />
-	</form>
-</div>
+{#if $loggedInAs}
+	<h1>You're already registered.</h1>
+{:else}
+	<div>
+		<h1>Register</h1>
+		<form on:submit|preventDefault={submitForm} action="/api/register" method="post">
+			<label
+				>Username<input
+					bind:value={username}
+					on:change={checkUsername}
+					type="text"
+					autocomplete="username"
+					required
+				/></label
+			>
+			<label
+				>Password<input
+					bind:value={password}
+					type="password"
+					autocomplete="new-password"
+					required
+				/></label
+			>
+			<label
+				>Confirm Pasword<input
+					bind:value={confirmPassword}
+					type="password"
+					autocomplete="new-password"
+					required
+				/></label
+			>
+			<input type="submit" />
+		</form>
+	</div>
+{/if}

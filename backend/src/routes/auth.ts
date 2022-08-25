@@ -56,17 +56,17 @@ router.put('/login', async (req, res) => {
     return res.status(200).end();
 })
 
+router.put('/logout', async (req, res) => {
+    req.session.username = undefined;
+    return res.status(200).end();
+});
+
 router.get('/logged-in', async (req, res) => {
-    const client = getClient();
     const username = req.session.username;
     if (!username) {
-        return res.json({ 'username': null });
-    }
-    const loggedIn = await client.hGet(`user:${username}`, 'loggedIn');
-    if (loggedIn) {
-        return res.json({ 'username': username });
+        return res.json(null);
     } else {
-        return res.json({ 'username': null });
+        return res.json({ 'username': username });
     }
 })
 
