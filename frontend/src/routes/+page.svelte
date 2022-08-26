@@ -20,6 +20,30 @@
 		}
 	}
 
+	let userToSendTo = '';
+	let newMessage = '';
+	async function sendMessage() {
+		const result = await fetch('/api/message/send-message', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({
+				userToSendTo,
+				message: newMessage
+			})
+		});
+		if (result.status === 200) {
+			const messageApiResponse = await fetch('/api/message/get-messages');
+			const messagesData: any[] = await messageApiResponse.json();
+			if (messagesData.length > 0) {
+				$messages = messagesData.map((m) => {
+					return JSON.parse(m);
+				});
+			}
+		}
+	}
+
 	let connections: string[] = [];
 	async function getConnections() {
 		const result = await fetch('/api/connection/connections');
@@ -66,6 +90,12 @@
 		</label>
 		<input type="submit" />
 	</form>
+	<h1>Message a user</h1>
+	<form on:submit|preventDefault={sendMessage} action="/api/message/send-message" method="POST">
+		<label>user<input bind:value={userToSendTo} type="text" /></label>
+		<input bind:value={newMessage} type="text" />
+		<input type="submit" />
+	</form>
 	{#if connections.length}
 		<h1>Connections</h1>
 		<ul>
@@ -77,6 +107,14 @@
 						href="/api/connection/remove-connection">remove</a
 					>
 				</li>
+			{/each}
+		</ul>
+	{/if}
+	{#if $messages.length > 0}
+		<h1>Messages</h1>
+		<ul>
+			{#each $messages as message}
+				<li>From {message.username}:<br />{message.message}</li>
 			{/each}
 		</ul>
 	{/if}

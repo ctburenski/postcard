@@ -3,7 +3,7 @@ import session from 'express-session';
 import cors from 'cors';
 import helmet from 'helmet';
 import { getClient, init } from './lib/redisClient';
-import { messages } from './routes/message';
+import { message } from './routes/message';
 import { auth } from './routes/auth';
 import { connection } from './routes/connection';
 import { authCheck } from './lib/authCheck';
@@ -51,7 +51,7 @@ app.get('/api/test', async (_req, res) => {
 	}
 });
 
-app.use('/api/messages', messages);
+app.use('/api/message', authCheck, message);
 
 (async () => {
 	await init();

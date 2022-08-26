@@ -1,5 +1,5 @@
-import { writable } from "svelte/store";
+import { writable, type Writable } from 'svelte/store';
 
-let messages = writable([]);
+let messages: Writable<{ username: string; message: string }[]> = writable([]);
 
 export { messages };

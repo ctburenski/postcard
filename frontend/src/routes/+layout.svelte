@@ -39,10 +39,12 @@
 	onMount(async () => {
 		await checkApi();
 		$loggedInAs = await getLoggedInUser();
-		const messageApiResponse = await fetch('/api/messages');
-		const messagesData = await messageApiResponse.json();
+		const messageApiResponse = await fetch('/api/message/get-messages');
+		const messagesData: any[] = await messageApiResponse.json();
 		if (messagesData.length > 0) {
-			$messages = messagesData;
+			$messages = messagesData.map((m) => {
+				return JSON.parse(m);
+			});
 		}
 	});
 </script>
