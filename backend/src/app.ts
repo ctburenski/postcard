@@ -2,7 +2,7 @@ import express from 'express';
 import session from 'express-session';
 import cors from 'cors';
 import helmet from 'helmet';
-import { getClient, init } from './lib/redisClient';
+import { getClient } from './lib/redisClient';
 import { message } from './routes/message';
 import { auth } from './routes/auth';
 import { connection } from './routes/connection';
@@ -33,13 +33,24 @@ declare module 'express-session' {
 	}
 }
 
+// TODO this works ok for fetch but not
+// for clients not using javascript
 app.use(express.json());
-app.use(cors());
+
+// don't need cors while using a proxy
+// might change this later if we use a CDN
+// app.use(cors());
+
+// TODO need to ensure this is secure
+// and lines up with the securiy expectations
+// for the proxy server
 app.use(helmet());
 
 app.use('/api/auth', auth);
 
 app.use('/api/connection', authCheck, connection);
+
+app.use('/api/message', authCheck, message);
 
 app.get('/api/test', async (_req, res) => {
 	const client = getClient();
@@ -51,9 +62,4 @@ app.get('/api/test', async (_req, res) => {
 	}
 });
 
-app.use('/api/message', authCheck, message);
-
-(async () => {
-	await init();
-	app.listen(6060);
-})();
+export default app;
