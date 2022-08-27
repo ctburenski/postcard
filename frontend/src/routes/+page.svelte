@@ -37,9 +37,7 @@
 			const messageApiResponse = await fetch('/api/message/get-messages');
 			const messagesData: any[] = await messageApiResponse.json();
 			if (messagesData.length > 0) {
-				$messages = messagesData.map((m) => {
-					return JSON.parse(m);
-				});
+				$messages = messagesData;
 			}
 		}
 	}
