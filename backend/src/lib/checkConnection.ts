@@ -1,5 +1,23 @@
 import { getClient } from './redisClient';
 
+// TODO this function seems pretty convoluted
+// if there's a better way to atomically update
+// the connections I'll do that instead
+//
+// Example of where this could go wrong:
+// A very popular user has a lot of connection
+// permissions given, locking the user out of
+// connecting to other users.
+//
+// Possible solutions:
+// 1. Lexicographically sort and concatenate
+// the two users connecting and then check
+// if the resulting string is a member of
+// the set of all possible connections?
+//
+// 2. Intersect the two sets of permissions?
+// This would be a lot easier to implement lol
+//
 async function checkConnection(
 	client: ReturnType<typeof getClient>,
 	username: string,
