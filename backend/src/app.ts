@@ -52,14 +52,4 @@ app.use('/api/connection', authCheck, connection);
 
 app.use('/api/message', authCheck, message);
 
-app.get('/api/test', async (_req, res) => {
-	const client = getClient();
-	const result = await client.set('test', 'ok');
-	if (result) {
-		return res.send(result);
-	} else {
-		return res.status(500).end();
-	}
-});
-
 export default app;

@@ -4,16 +4,6 @@
 	import { messages } from '../lib/messages';
 	import { loggedInAs } from '$lib/loggedInAs';
 
-	let apiResponseOk: boolean | null = null;
-
-	async function checkApi() {
-		const result = await fetch('/api/test');
-		setTimeout(async () => {
-			await checkApi();
-		}, 20_000);
-		apiResponseOk = result.ok;
-	}
-
 	async function getLoggedInUser() {
 		const result = await fetch('/api/auth/logged-in');
 		try {
@@ -37,7 +27,6 @@
 	}
 
 	onMount(async () => {
-		await checkApi();
 		$loggedInAs = await getLoggedInUser();
 		const messageApiResponse = await fetch('/api/message/get-messages');
 		const messagesData: any[] = await messageApiResponse.json();
@@ -46,16 +35,6 @@
 		}
 	});
 </script>
-
-{#if apiResponseOk !== null}
-	{#if apiResponseOk}
-		<p>✅</p>
-	{:else}
-		<p>⚠️</p>
-	{/if}
-{:else}
-	<p>⏳</p>
-{/if}
 
 <nav>
 	<ul>
