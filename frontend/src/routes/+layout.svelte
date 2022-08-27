@@ -42,7 +42,7 @@
 		<li><a href="/login">Login</a></li>
 		<li><a href="/register">Register</a></li>
 		{#if $loggedInAs}
-			<li><a on:click|preventDefault={logOut} href="/logout">Log out</a></li>
+			<li><a on:click|preventDefault={logOut} href="/api/auth/logout">Log out</a></li>
 		{/if}
 	</ul>
 </nav>
