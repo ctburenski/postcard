@@ -54,7 +54,7 @@ router.get('/get-messages', async (req, res) => {
 	const client = getClient();
 	const userMessages = await client.lRange(`user-messages:${username}`, 0, -1);
 	if (userMessages.length == 0) {
-		return res.status(500).end();
+		return res.status(200).json([]);
 	}
 	return res.status(200).json(userMessages.map((messageObject) => JSON.parse(messageObject)));
 });
