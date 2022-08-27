@@ -25,7 +25,8 @@
 		}
 	}
 
-	async function checkUsername() {}
+	// TODO this can match the logic in the register page
+	// async function checkUsername() {}
 </script>
 
 {#if $loggedInAs}
@@ -36,13 +37,7 @@
 		<form on:submit|preventDefault={submitForm} action="/api/auth/login" method="PUT">
 			<label
 				>Username
-				<input
-					bind:value={username}
-					on:change={checkUsername}
-					type="text"
-					autocomplete="username"
-					required
-				/>
+				<input bind:value={username} type="text" autocomplete="username" required />
 			</label>
 			<label
 				>Password

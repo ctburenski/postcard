@@ -8,8 +8,10 @@
 
 	async function submitForm() {
 		if (password !== confirmPassword) {
+			// TODO show error
 			return;
 		}
+
 		const result = await fetch('/api/auth/register', {
 			method: 'POST',
 			headers: {
@@ -35,6 +37,8 @@
 		// the form submission will check for this too
 		//
 		// no need to freak out the user
+		//
+		// TODO actually make this a real API call
 		try {
 			const result = await fetch('/api/auth/check-username', {
 				method: 'GET',
@@ -67,7 +71,7 @@
 </script>
 
 {#if $loggedInAs}
-	<h1>You're already registered.</h1>
+	<h1>Hi {$loggedInAs.username}, you're already registered.</h1>
 {:else}
 	<div>
 		<h1>Register</h1>
